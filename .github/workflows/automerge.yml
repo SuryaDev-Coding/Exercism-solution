@@ -1,0 +1,21 @@
+name: Auto Merge Exercism Backup
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  merge:
+    if: github.actor == 'exercism-solutions-syncer[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Auto merge PR
+        uses: pascalgn/automerge-action@v0.16.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MERGE_METHOD: squash
